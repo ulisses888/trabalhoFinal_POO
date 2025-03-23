@@ -485,9 +485,20 @@ public class JogoGUI extends JFrame {
     public void vitoriaOuDerrota(){
         if(numeroZumbisVivos == 0){
             System.out.println("Jogador Venceu");
+
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Parabens você venceu o Jogo!"
+            );
+            botaoSair.doClick();
         }
         if(jogador.getSaude() == 0){
             System.out.println("Jogador Perdeu");
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Infelizmente você perdeu :("
+            );
+            botaoSair.doClick();
         }
 
     }
