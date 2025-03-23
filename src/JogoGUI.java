@@ -412,7 +412,7 @@ public class JogoGUI extends JFrame {
                     cel.setConteudo('V');
                     cel.setOcupante(new Vazio());
 
-                }
+                 }
 //                if(surpresa == 1){
 //                    cel.setConteudo('J');
 //                    cel.setOcupante(jogador);
@@ -458,10 +458,10 @@ public class JogoGUI extends JFrame {
                 if(ocupante instanceof Zumbi && !(ocupante instanceof ZumbiGigante)){
                     Zumbi zumbi = (Zumbi) ocupante;
                     int nPassos = (zumbi instanceof ZumbiCorredor) ? 2 : 1;
-                    // Calculate potential directions
+
                     int distX = jogador.getCordenadaX() - x;
                     int distY = jogador.getCordenadaY() - y;
-                    // Enforce horizontal or vertical movement
+
                     if(Math.abs(distX) > Math.abs(distY)) {
                         distX = Integer.compare(distX, 0);
                         distY = 0;
