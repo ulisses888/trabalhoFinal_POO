@@ -17,7 +17,7 @@ public class JogoGUI extends JFrame {
         this.mapa = mapa;
         this.jogador = jogador;
         this.debugMode = debugMode;
-        this.numeroZumbisVivos = 10;
+        this.numeroZumbisVivos = 11;
 
         mapa.posicionarJogador(jogador);
 
@@ -277,6 +277,19 @@ public class JogoGUI extends JFrame {
                 this,
                 "Você encontrou um Bau!"
         );
+
+        if(bau instanceof BauInfectado){
+            ZumbiRastejante zumbi = ((BauInfectado) bau).getZumbiEscondido();
+            cel.setOcupante(zumbi);
+            cel.setConteudo(zumbi.getTipoChar());
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Um Zumbi Rastejante estava escondido no Bau!"
+            );
+            iniciarCombate(zumbi, cel, 1);
+        }
+
+
         switch (conteudo) {
             case 1:
                 if(jogador.isTemRevolver()){

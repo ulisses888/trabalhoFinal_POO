@@ -34,16 +34,23 @@ public class Mapa {
                             case 'B':
                                 if(this.conteudoBau == 3){
                                     celula.setOcupante(new Bau(3));
-                                    conteudoBau--;
+                                    this.conteudoBau--;
                                     break;
                                 }
                                 if(this.conteudoBau == 2){
                                     celula.setOcupante(new Bau(2));
-                                    conteudoBau--;
+                                    this.conteudoBau--;
                                     break;
                                 }
-                                if(this.conteudoBau < 2){
+                                if(this.conteudoBau == 1){
                                 celula.setOcupante(new Bau(1));
+                                this.conteudoBau--;
+                                break;
+                                }
+                                if(this.conteudoBau < 1){
+                                    celula.setOcupante(new BauInfectado(1,j,i));
+                                    this.conteudoBau--;
+                                    break;
                                 }
                                 break;
                             case 'R':
