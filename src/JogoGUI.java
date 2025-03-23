@@ -25,7 +25,7 @@ public class JogoGUI extends JFrame {
         setLayout(new BorderLayout());
 
         JPanel panelStatus = new JPanel();
-        labelSaude = new JLabel("Saúde: " + jogador.getSaude());
+        labelSaude = new JLabel("Saúde: " + jogador.getSaude() +"/5");
         labelPercepcao = new JLabel(" | Percepcao: " + jogador.getPercepcao());
         labelMunicao = new JLabel(" | Municao: " +jogador.getRevolver().getMunicao());
         labelAtaduras = new JLabel(" | Ataduras: " + jogador.getNumeroAtaduras());
@@ -48,10 +48,11 @@ public class JogoGUI extends JFrame {
         botaoMover.addActionListener(e -> habilitarMovimento());
         botaoCurar.addActionListener(e -> {
             if (jogador.temAtadura()) {
-                jogador.curar();
+                if(jogador.curar()){
+                    atualizarStatus();
+                    moverZumbis();
+                }
                 botaoCurar.setEnabled( jogador.temAtadura() );
-                moverZumbis();
-                atualizarStatus();
             }
         });
         botaoSair.addActionListener(e -> {
@@ -128,15 +129,16 @@ public class JogoGUI extends JFrame {
 //                btn.setMargin(new Insets(0, 0, 0, 0));
 //                btn.setPreferredSize(new Dimension(50, 50));
 
+
                 if (estaNaLinhaDeVisao(i, j) || debugMode) {
                     Object ocupante = mapa.getCelula(i, j).getOcupante();
                     if (ocupante instanceof ZumbiRastejante && !debugMode) {
-                        btn.setText("V");
+                        //btn.setText("V");
                     } else {
                         char conteudo = mapa.getCelula(i, j).getConteudo();
-                        btn.setText(String.valueOf(conteudo));
+                        //btn.setText(String.valueOf(conteudo));
 
-                        ImageIcon icon = Icones.retornaIcone(conteudo);
+                        ImageIcon icon = Icones.retornaIcone(conteudo,jogador);
                         if (icon != null) {
                             Image img = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
                             ImageIcon scaledIcon = new ImageIcon(img);
@@ -145,8 +147,8 @@ public class JogoGUI extends JFrame {
                         }
                     }
                 } else {
-                    btn.setText("?");
-                    ImageIcon icon = Icones.retornaIcone('?');
+                    //btn.setText("?");
+                    ImageIcon icon = Icones.retornaIcone('?',jogador);
                     if (icon != null) {
                         Image img = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
                         ImageIcon scaledIcon = new ImageIcon(img);
@@ -251,7 +253,7 @@ public class JogoGUI extends JFrame {
     }
 
     public void atualizarStatus() {
-        labelSaude.setText("Saúde: " + jogador.getSaude());
+        labelSaude.setText("Saúde: " + jogador.getSaude() +"/5");
         labelPercepcao.setText(" | Percepção: " + jogador.getPercepcao());
         labelMunicao.setText(" | Municao: " +jogador.getRevolver().getMunicao());
         labelAtaduras.setText(" | Ataduras:" + jogador.getNumeroAtaduras());
@@ -330,7 +332,7 @@ public class JogoGUI extends JFrame {
             } else {
                 opcoes.add("Soco");
             }
-            if (jogador.isTemRevolver()) {
+            if (jogador.isTemRevolver() && jogador.getRevolver().getMunicao() > 0) {
                 opcoes.add("Revolver");
             }
             opcoes.add("Fugir");
@@ -354,7 +356,6 @@ public class JogoGUI extends JFrame {
             int danoJogador = 0;
             String acao = escolha[opcao];
 
-            // Chama metodo adequando de acordo com a arma
             switch (acao) {
                 case "Soco":
                     danoJogador = jogador.getSoco().atacar(zumbi);
@@ -381,7 +382,6 @@ public class JogoGUI extends JFrame {
                     break;
             }
 
-
             zumbi.atacado(danoJogador);
             javax.swing.JOptionPane.showMessageDialog(
                     this,
@@ -400,10 +400,10 @@ public class JogoGUI extends JFrame {
                     cel.setOcupante(new Vazio());
 
                 }
-                if(surpresa == 1){
-                    cel.setConteudo('J');
-                    cel.setOcupante(jogador);
-                }
+//                if(surpresa == 1){
+//                    cel.setConteudo('J');
+//                    cel.setOcupante(jogador);
+//                }
 
                 atualizarStatus();
                 panelMapa.removeAll();
@@ -441,38 +441,46 @@ public class JogoGUI extends JFrame {
     public void moverZumbis() {
         for(int y = 0; y < 10; y++) {
             for(int x = 0; x < 10; x++){
-                Object ocupante = mapa.getCelula(y,x).getOcupante();
+                Object ocupante = mapa.getCelula(y, x).getOcupante();
                 if(ocupante instanceof Zumbi && !(ocupante instanceof ZumbiGigante)){
                     Zumbi zumbi = (Zumbi) ocupante;
                     int nPassos = (zumbi instanceof ZumbiCorredor) ? 2 : 1;
-                    int dx = Integer.compare(jogador.getCordenadaX(), x);
-                    int dy = Integer.compare(jogador.getCordenadaY(), y);
+                    // Calculate potential directions
+                    int distX = jogador.getCordenadaX() - x;
+                    int distY = jogador.getCordenadaY() - y;
+                    // Enforce horizontal or vertical movement
+                    if(Math.abs(distX) > Math.abs(distY)) {
+                        distX = Integer.compare(distX, 0);
+                        distY = 0;
+                    } else {
+                        distY = Integer.compare(distY, 0);
+                        distX = 0;
+                    }
 
                     for(int i = 0; i < nPassos; i++){
-                        int novoX = x + dx;
-                        int novoY = y + dy;
+                        int novoX = x + distX;
+                        int novoY = y + distY;
 
+                        if(!limiteMapa(novoX, novoY)
+                                || mapa.getCelula(novoY, novoX).getOcupante() instanceof Zumbi
+                                || mapa.getCelula(novoY, novoX).getOcupante() instanceof Bau
+                                || mapa.getCelula(novoY, novoX).getOcupante() instanceof Parede) {
+                            break;
+                        }
 
-                    if(!limiteMapa(novoX,novoY) || mapa.getCelula(novoY, novoX).getOcupante() instanceof Zumbi
-                            ||  mapa.getCelula(novoY, novoX).getOcupante() instanceof Bau
-                            ||  mapa.getCelula(novoY, novoX).getOcupante() instanceof Parede){
-                        break;
+                        mapa.getCelula(y, x).setOcupante(new Vazio());
+                        mapa.getCelula(y, x).setConteudo('V');
+                        mapa.getCelula(novoY, novoX).setOcupante(zumbi);
+                        mapa.getCelula(novoY, novoX).setConteudo(zumbi.getTipoChar());
+                        y = novoY;
+                        x = novoX;
+
+                        if (jogador.getCordenadaX() == x && jogador.getCordenadaY() == y) {
+                            iniciarCombatePrimeiroGolpeZumbi(zumbi);
+                            break;
+                        }
                     }
-
-                    mapa.getCelula(y, x).setOcupante(new Vazio());
-                    mapa.getCelula(y,x).setConteudo('V');
-                    mapa.getCelula(novoY, novoX).setOcupante(zumbi);
-                    mapa.getCelula(novoY,novoX).setConteudo(zumbi.getTipoChar());
-                    y = novoY;
-                    x = novoX;
-
-                    if (jogador.getCordenadaX() == x && jogador.getCordenadaY() == y) {
-                        iniciarCombatePrimeiroGolpeZumbi(zumbi);
-                        break;
-                    }
-
                 }
-            }
             }
         }
     }

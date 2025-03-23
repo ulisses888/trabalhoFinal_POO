@@ -1,3 +1,5 @@
+import javax.swing.*;
+
 public class Personagem {
     private int saude;
     private int percepcao;
@@ -69,11 +71,16 @@ public class Personagem {
 
 
     public boolean curar() {
-        if (this.numeroAtaduras > 0) {
+        if (this.numeroAtaduras > 0 && this.saude < 5) {
             this.saude++;
             System.out.println("Curado com sucesso");
+            this.numeroAtaduras--;
             return true;
-        } else {
+        } if(this.saude == 5){
+            JOptionPane.showMessageDialog(null, "Impossivel Curar o jogador está com vida Maxima");
+            return false;
+        }
+        else {
             System.out.println("Impossivel Curar nao tem ataduras");
             return false;
         }
