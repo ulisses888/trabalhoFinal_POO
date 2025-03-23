@@ -1,10 +1,15 @@
 public abstract class Zumbi {
     private int vida;
     private boolean estavivo;
+    private int cordenadaX;
+    private int cordenadaY;
 
-    public Zumbi(int vida){
+    public Zumbi(int vida,int cordenadaX,int cordenadaY){
         this.vida = vida;
         this.estavivo = true;
+        this.cordenadaY = cordenadaY;
+        this.cordenadaX = cordenadaX;
+
     }
 
     public boolean getEstado(){
@@ -31,5 +36,15 @@ public abstract class Zumbi {
             System.out.println("Zumbi morto");
         }
     }
+
+    public int getCordenadaX() {
+        return cordenadaX;
+    }
+
+    public int getCordenadaY() {
+        return cordenadaY;
+    }
+
+    public abstract char getTipoChar();
 
 }

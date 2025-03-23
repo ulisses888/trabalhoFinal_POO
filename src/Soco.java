@@ -1,6 +1,6 @@
 public class Soco extends Arma{
     public int atacar(Zumbi alvo){
-        if(!(alvo instanceof ZumbiRastejante)){
+        if(!(alvo instanceof ZumbiGigante)){
             int resultado = RolarDados.rolarDados6Lados();
             if(resultado != 6){
                 return 1;

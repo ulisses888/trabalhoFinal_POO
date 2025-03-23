@@ -5,12 +5,14 @@ import java.io.IOException;
 public class Mapa {
     private Celula[][] grid;
     private int conteudoBau = 3;
+    private String localArquivo;
     //1 - Revolver
     //2 - Taco
     //3 - Atadura
 
     public void carregarMapa(int altura, int largura, String localarquivo) {
         grid = new Celula[altura][largura];
+        this.localArquivo = localarquivo;
 
         try (BufferedReader br = new BufferedReader(new FileReader(localarquivo))) {
             for (int i = 0; i < altura; i++) {
@@ -45,16 +47,16 @@ public class Mapa {
                                 }
                                 break;
                             case 'R':
-                                celula.setOcupante(new ZumbiRastejante(1));
+                                celula.setOcupante(new ZumbiRastejante(1,j,i));
                                 break;
                             case 'Z':
-                                celula.setOcupante(new ZumbiComum(2));
+                                celula.setOcupante(new ZumbiComum(2,j,i));
                                 break;
                             case 'G':
-                                celula.setOcupante(new ZumbiGigante(3));
+                                celula.setOcupante(new ZumbiGigante(3,j,i));
                                 break;
                             case 'C':
-                                celula.setOcupante(new ZumbiCorredor(2));
+                                celula.setOcupante(new ZumbiCorredor(2,j,i));
                                 break;
                             default:
                                 System.out.println("Caracter nao reconhecido no mapa");
@@ -94,5 +96,7 @@ public class Mapa {
         cell.setOcupante(jogador);
     }
 
-
+    public String getLocalArquivo() {
+        return localArquivo;
+    }
 }
