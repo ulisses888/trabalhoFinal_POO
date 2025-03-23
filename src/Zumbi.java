@@ -13,7 +13,11 @@ public abstract class Zumbi {
     }
 
     public boolean getEstado(){
-        return estavivo;
+        if(estavivo && getVida() > 0){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void matarZumbi(){

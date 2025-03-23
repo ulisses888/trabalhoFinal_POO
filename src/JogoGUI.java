@@ -4,7 +4,7 @@ import java.awt.*;
 public class JogoGUI extends JFrame {
     private JPanel panelMapa;
     private JButton[][] botoesMapa = new JButton[10][10];
-    private JLabel labelSaude, labelPercepcao, labelMunicao, labelAtaduras;
+    private JLabel labelSaude, labelPercepcao, labelMunicao, labelAtaduras, labelZumbisRestantes;
     private JButton botaoMover, botaoCurar, botaoSair;
     private Personagem jogador;
     private Mapa mapa;
@@ -29,11 +29,20 @@ public class JogoGUI extends JFrame {
         labelPercepcao = new JLabel(" | Percepcao: " + jogador.getPercepcao());
         labelMunicao = new JLabel(" | Municao: " +jogador.getRevolver().getMunicao());
         labelAtaduras = new JLabel(" | Ataduras: " + jogador.getNumeroAtaduras());
+        if(debugMode){
+            labelZumbisRestantes = new JLabel(" | Zumbis:" + this.numeroZumbisVivos);
+        }
 
         panelStatus.add(labelSaude);
         panelStatus.add(labelPercepcao);
         panelStatus.add(labelMunicao);
         panelStatus.add(labelAtaduras);
+
+        if(debugMode){
+            labelZumbisRestantes = new JLabel(" | Zumbis:" + this.numeroZumbisVivos);
+            panelStatus.add(labelZumbisRestantes);
+        }
+
         add(panelStatus, BorderLayout.NORTH);
 
         panelMapa = new JPanel(new GridLayout(10, 10));
@@ -96,7 +105,7 @@ public class JogoGUI extends JFrame {
                 case "Novo Jogo":
                     dispose();
                     Mapa novoMapa1 = new Mapa();
-                    novoMapa1.carregarMapa(10, 10, "tabuleiros/tabuleiro"+ RolarDados.rolarDado3Lados()+ ".txt");
+                    novoMapa1.carregarMapa(10, 10, "src/tabuleiros/tabuleiro"+ RolarDados.rolarDado3Lados()+ ".txt");
                     Personagem novoJogador1 = new Personagem(jogador.getPercepcao());
                     JogoGUI jogo1 = new JogoGUI(novoMapa1, novoJogador1,this.debugMode);
                     jogo1.setVisible(true);
@@ -257,6 +266,9 @@ public class JogoGUI extends JFrame {
         labelPercepcao.setText(" | Percepção: " + jogador.getPercepcao());
         labelMunicao.setText(" | Municao: " +jogador.getRevolver().getMunicao());
         labelAtaduras.setText(" | Ataduras:" + jogador.getNumeroAtaduras());
+        if(debugMode){
+            labelZumbisRestantes.setText(" | Zumbis:" + this.numeroZumbisVivos);
+        }
     }
     // 1 - Revovler 2 - Taco 3 - Atadura
     public void aberturaBau(Bau bau, Celula cel) {
@@ -394,6 +406,7 @@ public class JogoGUI extends JFrame {
                         "Você matou o Zumbi!"
                 );
                 this.numeroZumbisVivos--;
+                vitoriaOuDerrota();
 
                 if(surpresa == 0) {
                     cel.setConteudo('V');

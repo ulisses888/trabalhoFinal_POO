@@ -1,17 +1,17 @@
 import javax.swing.*;
 
 public class Icones {
-    static ImageIcon desconhecido = new ImageIcon("sprites/jogo/desconhecido.png");
-    static ImageIcon baufechado = new ImageIcon("sprites/jogo/baufechado.png");
-    static ImageIcon jogadorDesarmado = new ImageIcon("sprites/jogo/jogadorDesarmado.png");
-    static ImageIcon jogadorTaco = new ImageIcon("sprites/jogo/jogadorTaco.png");
-    static ImageIcon jogadorRevolver = new ImageIcon("sprites/jogo/jogadorRevolver.png");
-    static ImageIcon parede = new ImageIcon("sprites/jogo/parede.png");
-    static ImageIcon vazio = new ImageIcon("sprites/jogo/vazio.png");
-    static ImageIcon zumbiComum = new ImageIcon("sprites/jogo/zumbiComum.png");
-    static ImageIcon zumbiCorredor = new ImageIcon("sprites/jogo/zumbiCorredor.png");
-    static ImageIcon zumbiGigante = new ImageIcon("sprites/jogo/zumbiGigante.png");
-    static ImageIcon zumbiRastejante = new ImageIcon("sprites/jogo/zumbiRastejante.png");
+    static ImageIcon desconhecido = new ImageIcon("src/sprites/jogo/desconhecido.png");
+    static ImageIcon baufechado = new ImageIcon("src/sprites/jogo/baufechado.png");
+    static ImageIcon jogadorDesarmado = new ImageIcon("src/sprites/jogo/jogadorDesarmado.png");
+    static ImageIcon jogadorTaco = new ImageIcon("src/sprites/jogo/jogadorTaco.png");
+    static ImageIcon jogadorRevolver = new ImageIcon("src/sprites/jogo/jogadorRevolver.png");
+    static ImageIcon parede = new ImageIcon("src/sprites/jogo/parede.png");
+    static ImageIcon vazio = new ImageIcon("src/sprites/jogo/vazio.png");
+    static ImageIcon zumbiComum = new ImageIcon("src/sprites/jogo/zumbiComum.png");
+    static ImageIcon zumbiCorredor = new ImageIcon("src/sprites/jogo/zumbiCorredor.png");
+    static ImageIcon zumbiGigante = new ImageIcon("src/sprites/jogo/zumbiGigante.png");
+    static ImageIcon zumbiRastejante = new ImageIcon("src/sprites/jogo/zumbiRastejante.png");
 
     public static ImageIcon retornaIcone(char nomeIcone, Personagem jogador) {
         switch (nomeIcone) {

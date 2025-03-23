@@ -20,7 +20,7 @@ public class Menu extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 0, 10, 0);
 
-        ImageIcon logoIcon = new ImageIcon("sprites/menu/ZombicideLogo.png");
+        ImageIcon logoIcon = new ImageIcon("src/sprites/menu/ZombicideLogo.png");
         JLabel logoLabel = new JLabel(logoIcon);
         gbc.gridy = 0;
         mainPanel.add(logoLabel, gbc);
@@ -43,7 +43,7 @@ public class Menu extends JFrame {
         gbc.gridy = 3;
         mainPanel.add(sairDoJogoButton, gbc);
 
-        ImageIcon backgroundImage = new ImageIcon("sprites/menu/gifChuva.gif");
+        ImageIcon backgroundImage = new ImageIcon("src/sprites/menu/gifChuva.gif");
         JLabel backgroundLabel = new JLabel(backgroundImage);
         backgroundLabel.setLayout(new GridBagLayout());
         backgroundLabel.add(mainPanel, gbc);
@@ -61,7 +61,7 @@ public class Menu extends JFrame {
         debugModeButton.addActionListener(e -> {
             dispose();
             Mapa mapa = new Mapa();
-            mapa.carregarMapa(10, 10, "tabuleiros/tabuleiro"+ RolarDados.rolarDado3Lados()+ ".txt");
+            mapa.carregarMapa(10, 10, "src/tabuleiros/tabuleiro"+ RolarDados.rolarDado3Lados()+ ".txt");
             Personagem jogador = new Personagem(0);
             JogoGUI jogo = new JogoGUI(mapa, jogador, true);
             jogo.setVisible(true);
@@ -106,7 +106,7 @@ public class Menu extends JFrame {
         facilButton.addActionListener(e -> {
             dispose();
             Mapa mapa = new Mapa();
-            mapa.carregarMapa(10, 10, "tabuleiros/tabuleiro"+ RolarDados.rolarDado3Lados()+ ".txt");
+            mapa.carregarMapa(10, 10, "src/tabuleiros/tabuleiro"+ RolarDados.rolarDado3Lados()+ ".txt");
             Personagem jogador = new Personagem(3);
             JogoGUI jogo = new JogoGUI(mapa, jogador, false);
             jogo.setVisible(true);
@@ -115,7 +115,7 @@ public class Menu extends JFrame {
         medioButton.addActionListener(e -> {
             dispose();
             Mapa mapa = new Mapa();
-            mapa.carregarMapa(10, 10, "tabuleiros/tabuleiro"+ RolarDados.rolarDado3Lados()+ ".txt");
+            mapa.carregarMapa(10, 10, "src/tabuleiros/tabuleiro"+ RolarDados.rolarDado3Lados()+ ".txt");
             Personagem jogador = new Personagem(2);
             JogoGUI jogo = new JogoGUI(mapa, jogador, false);
             jogo.setVisible(true);
@@ -124,7 +124,7 @@ public class Menu extends JFrame {
         dificilButton.addActionListener(e -> {
             dispose();
             Mapa mapa = new Mapa();
-            mapa.carregarMapa(10, 10, "tabuleiros/tabuleiro"+ RolarDados.rolarDado3Lados()+ ".txt");
+            mapa.carregarMapa(10, 10, "src/tabuleiros/tabuleiro"+ RolarDados.rolarDado3Lados()+ ".txt");
             Personagem jogador = new Personagem(1);
             JogoGUI jogo = new JogoGUI(mapa, jogador, false);
             jogo.setVisible(true);
@@ -140,7 +140,7 @@ public class Menu extends JFrame {
             gbcBack.insets = new Insets(10, 0, 10, 0);
 
             gbcBack.gridy = 0;
-            ImageIcon logoIcon = new ImageIcon("sprites/menu/ZombicideLogo.png");
+            ImageIcon logoIcon = new ImageIcon("src/sprites/menu/ZombicideLogo.png");
             JLabel logoLabel = new JLabel(logoIcon);
             mainPanel.add(logoLabel, gbcBack);
 
