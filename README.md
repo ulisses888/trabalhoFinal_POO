@@ -1,0 +1,1 @@
+Jogo simples de tabuleiro feito em Java com a tematica de Zumbis para a disciplina de Programação Orientada a Objetos do curso de ciência da computação da universidade federal de Pelotas, IDE Intellij
